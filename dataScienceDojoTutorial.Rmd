@@ -1,0 +1,45 @@
+---
+title: "Titanic Tutorial - DataScienceDojo"
+output: html_notebook
+---
+## Resource: 'ggplot2 - Elegent Graphics for Data Analysis (book), 2nd Ed.'
+### by Hadley Wickham (pub: Springer)
+
+
+```{r setup, echo=FALSE, message=FALSE}
+if (packageVersion("devtools") < 1.6) {
+  install.packages("devtools")
+}
+devtools::install_github("paulhendricks/titanic")
+library(titanic)
+library(ggplot2)
+library(dplyr)
+```
+
+```{r initial-df-and-factors-setup}
+test <- read.csv("test.csv", stringsAsFactors = FALSE)
+train <- read.csv("train.csv", stringsAsFactors = FALSE)
+# Creating a new data set with both the test and the train sets
+titanic <- bind_rows(train,test)
+LT=dim(train)[1]
+# Checking the structure
+str(titanic)
+View(titanic)
+```
+
+### Setup as factors
+
+```{r setup-factors}
+titanic$Pclass <- as.factor(titanic$Pclass)
+titanic$Survived <- as.factor(titanic$Survived)
+titanic$Sex <- as.factor(titanic$Sex)
+titanic$Embarked <- as.factor(titanic$Embarked)
+```
+
+## First question - What was the survival rate?
+### As 'Survived' is now a factor (i.e., Categorical) variable, a bar-chart is a great visualisation to use.
+```{r bar-chart-survival}
+ggplot(titanic, aes(x = Survived)) +
+  geom_bar()
+```
+
