@@ -36,10 +36,26 @@ titanic$Sex <- as.factor(titanic$Sex)
 titanic$Embarked <- as.factor(titanic$Embarked)
 ```
 
+### Initial analysis and cleanup data (e.g., missing values)
+```{r cleanup}
+colSums(is.na(titanic))
+```
+
+
+
+
 ## First question - What was the survival rate?
 ### As 'Survived' is now a factor (i.e., Categorical) variable, a bar-chart is a great visualisation to use.
 ```{r bar-chart-survival}
 ggplot(titanic, aes(x = Survived)) +
   geom_bar()
+```
+### Add some plot customisations and a theme
+```{r bar-chart-survival-2}
+ggplot(titanic, aes(x = Survived)) +
+  theme_bw() +
+  geom_bar() +
+  labs(y = "Passenger Count",
+       title = "Titanic Survival Rates")
 ```
 
