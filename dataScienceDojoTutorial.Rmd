@@ -7,25 +7,19 @@ output: html_notebook
 
 
 ```{r setup, echo=FALSE, message=FALSE}
-if (packageVersion("devtools") < 1.6) {
-  install.packages("devtools")
-}
-devtools::install_github("paulhendricks/titanic")
 library(titanic)
 library(ggplot2)
 library(dplyr)
 ```
 
-```{r initial-df-and-factors-setup}
-test <- read.csv("test.csv", stringsAsFactors = FALSE)
-train <- read.csv("train.csv", stringsAsFactors = FALSE)
-# Creating a new data set with both the test and the train sets
-titanic <- bind_rows(train,test)
-LT=dim(train)[1]
+```{r create-df}
+titanic <- read.csv("titanic.csv", stringsAsFactors = FALSE)
 # Checking the structure
 str(titanic)
 View(titanic)
 ```
+
+
 
 ### Setup as factors
 
@@ -39,6 +33,7 @@ titanic$Embarked <- as.factor(titanic$Embarked)
 ### Initial analysis and cleanup data (e.g., missing values)
 ```{r cleanup}
 colSums(is.na(titanic))
+
 ```
 
 
