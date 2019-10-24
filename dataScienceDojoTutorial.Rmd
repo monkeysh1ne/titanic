@@ -91,9 +91,9 @@ ggplot(titanic, aes(x = Sex, fill = Survived)) +
 ```
 ## What was the distribution by passenger ages?
 ```{r dist-by-passenger-age}
-ggplot(titanic, aes(x = age)) +
+ggplot(titanic, aes(x = Age)) +
   theme_bw() +
-  geom_histogram(bins = 5) +
+  geom_histogram(binwidth = 5) +
   labs(y = "Passenger Count", x = "Age (binwidth = 5",
        title = "Titanic Age Distribution")
 ```
