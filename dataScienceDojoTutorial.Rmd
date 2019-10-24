@@ -1,6 +1,9 @@
 ---
 title: "Titanic Tutorial - DataScienceDojo"
-output: html_notebook
+author: "Darrell Mayson"
+output:
+  html_document:
+    df_print: paged
 ---
 ## Resource: 'ggplot2 - Elegent Graphics for Data Analysis (book), 2nd Ed.'
 ### by Hadley Wickham (pub: Springer)
@@ -16,12 +19,12 @@ library(dplyr)
 titanic <- read.csv("titanic.csv", stringsAsFactors = FALSE)
 # Checking the structure
 str(titanic)
-View(titanic)
+# View(titanic) # commented as causes crash when knitting to HTML
 ```
 
 
 
-### Setup as factors
+### Setup as factors to enable plot
 
 ```{r setup-factors}
 titanic$Pclass <- as.factor(titanic$Pclass)
@@ -30,7 +33,7 @@ titanic$Sex <- as.factor(titanic$Sex)
 titanic$Embarked <- as.factor(titanic$Embarked)
 ```
 
-### Initial analysis and cleanup data (e.g., missing values)
+### Initial analysis and cleanup data (e.g., missing values) - [TODO]
 ```{r cleanup}
 colSums(is.na(titanic))
 
@@ -59,12 +62,39 @@ prop.table(table(titanic$Survived))
 ## What was the survival rate by Gender
 We can use color to look at two aspects (i.e., dimensions) of the data simultaneously.
 
-```{r survival-rates-by-gender}
+```{r survival-rate-by-gender, echo=FALSE}
 ggplot(titanic, aes(x = Sex, fill = Survived)) +
   theme_classic() +
   geom_bar() +
   labs(y = "Passenger Count",
-       title = "Titanic Survival Rates by Gender") +
-  legend()
+       title = "Titanic Survival Rates by Gender")
+```
+
+## What was the survival rate by ticket class?
+
+```{r survival-rate-by-ticket-class}
+ggplot(titanic, aes(x = Pclass, fill = Survived)) +
+  theme_bw() +
+  geom_bar() +
+  labs(y = "Passenger Count", x = "Class of Ticket",
+       title = "Titanic Survival Rates by Ticket Class")
+```
+## OK, so what was the survival rate by GENDER by PCLASS (i.e., sex and ticket class)?
+### We can leverage facets to further segment the data and enable 'visual-drill-down' into the data.
+```{r survival-rate-by-sex-facet-by-pclass}
+ggplot(titanic, aes(x = Sex, fill = Survived)) +
+  theme_bw() +
+  facet_wrap(~ Pclass) +
+  geom_bar() +
+  labs(y = "Passenger Count",
+       title = "Titanic Survival Rates by Sex & Ticket Class")
+```
+## What was the distribution by passenger ages?
+```{r dist-by-passenger-age}
+ggplot(titanic, aes(x = age)) +
+  theme_bw() +
+  geom_histogram(bins = 5) +
+  labs(y = "Passenger Count", x = "Age (binwidth = 5",
+       title = "Titanic Age Distribution")
 ```
 
